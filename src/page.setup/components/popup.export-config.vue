@@ -91,6 +91,7 @@ async function genExportData(): Promise<void> {
   const storageKeys: (keyof Stored)[] = []
   if (state.containers) storageKeys.push('containers')
   if (state.settings) storageKeys.push('settings')
+  if (state.settings) storageKeys.push('customTabColors')
   if (state.nav) storageKeys.push('sidebar')
   if (state.menu) storageKeys.push('contextMenu')
   if (state.hasStyles && state.styles) {
@@ -120,6 +121,9 @@ async function genExportData(): Promise<void> {
 
   if (state.containers && data.containers) backup.containers = data.containers
   if (state.settings && data.settings) backup.settings = data.settings
+  if (state.settings && data.customTabColors?.length) {
+    backup.customTabColors = data.customTabColors
+  }
   if (state.nav && data.sidebar) backup.sidebar = data.sidebar
   if (state.menu && data.contextMenu) backup.contextMenu = data.contextMenu
   if (state.hasStyles && state.styles) {

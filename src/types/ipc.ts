@@ -13,6 +13,7 @@ import type * as TabsFg from 'src/services/tabs.fg'
 import type * as SidebarBg from 'src/services/sidebar.bg'
 import type * as SidebarFg from 'src/services/sidebar.fg'
 import type * as ContainersBg from 'src/services/containers.bg'
+import type * as TabColorsBg from 'src/services/tab-colors.bg'
 import type * as GroupPage from 'src/page.group/group'
 
 export interface Message<T extends E.InstanceType, A extends ActionsKeys<T>> {
@@ -72,6 +73,8 @@ export type BgActions = {
   createContainer: typeof ContainersBg.createAndSave
   removeContainer: typeof ContainersBg.removeAndSave
   importContainers: typeof ContainersBg.importContainers
+
+  countTabsWithColor: typeof TabColorsBg.countTabsWithColor
 }
 
 export type SettingsActions = {

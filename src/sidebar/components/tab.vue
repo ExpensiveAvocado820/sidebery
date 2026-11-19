@@ -109,7 +109,8 @@ import * as Tabs from 'src/services/tabs.fg'
 import * as Mouse from 'src/services/mouse.fg'
 import * as DnD from 'src/services/drag-and-drop.fg'
 import * as Search from 'src/services/search.fg'
-import { NOID, RGB_COLORS } from 'src/defaults'
+import { NOID } from 'src/defaults'
+import * as TabColors from 'src/services/tab-colors'
 import * as Utils from 'src/utils'
 import * as Logs from 'src/services/logs'
 import * as Preview from 'src/services/tabs.fg.preview'
@@ -129,7 +130,10 @@ const favSvgUseEl = useTemplateRef('favSvgUseEl')
 const flashFxEl = useTemplateRef('flashFxEl')
 
 const tabColor = computed<string>(() => {
-  if (tab.reactive.customColor) return RGB_COLORS[tab.customColor as string]
+  if (tab.reactive.customColor) {
+    const code = TabColors.getColorCode(tab.reactive.customColor)
+    if (code) return code
+  }
   if (
     Settings.state.colorizeTabsBranches &&
     tab.reactive.branchColor &&

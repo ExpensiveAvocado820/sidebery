@@ -295,6 +295,7 @@ export interface SettingsState {
   syncSaveCtxMenu: boolean
   syncSaveStyles: boolean
   syncSaveKeybindings: boolean
+  syncSaveTabColors: boolean
 
   // Keybindings
   selectActiveTabFirst: boolean

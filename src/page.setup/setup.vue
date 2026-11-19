@@ -25,6 +25,7 @@
   Transition(name="popup"): TabMoveRulesPopup(v-if="Popups.reactive.tabMoveRulesPopup")
   Transition(name="popup"): TabReopenRulesPopup(v-if="Popups.reactive.tabReopenRulesPopup")
   Transition(name="popup" type="transition"): DialogPopup(v-if="Popups.reactive.dialog" :dialog="Popups.reactive.dialog")
+  Transition(name="popup" type="transition"): ColorPickerPopup(v-if="Popups.reactive.colorPickerPopup")
   Details
 
   .notifications-container
@@ -50,6 +51,7 @@ import NewTabShortcutsPopup from 'src/components/popup.new-tab-shortcuts.vue'
 import TabMoveRulesPopup from 'src/components/popup.tab-move-rules.vue'
 import TabReopenRulesPopup from 'src/components/popup.tab-reopen-rules.vue'
 import DialogPopup from 'src/components/popup.dialog.vue'
+import ColorPickerPopup from 'src/components/popup.color-picker.vue'
 import Details from './components/settings.details.vue'
 import NotificationsPopup from '../sidebar/components/popup.notifications.vue'
 
@@ -62,6 +64,12 @@ onMounted(() => {
 function onDocumentKeydown(e: KeyboardEvent): void {
   // Close popups
   if (e.code === 'Escape') {
+    // Color picker popup
+    if (Popups.reactive.colorPickerPopup) {
+      Popups.closeColorPicker()
+      return
+    }
+
     // Bookmarks popup
     if (Bookmarks.reactive.popup?.close) {
       Bookmarks.reactive.popup.close()

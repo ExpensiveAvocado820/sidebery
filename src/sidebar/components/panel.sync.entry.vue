@@ -49,6 +49,7 @@ import * as Utils from 'src/utils'
 import * as Logs from 'src/services/logs'
 import * as Sync from 'src/services/sync.fg'
 import * as Keybindings from 'src/services/keybindings.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
 import * as Menu from 'src/services/menu.fg'
 import * as Settings from 'src/services/settings.fg'
 import * as Styles from 'src/services/styles.fg'
@@ -72,6 +73,9 @@ function getTypeTitle() {
     return translate('sync.keybindings_title')
   }
   if (props.entry.type === Sync.SyncedEntryType.CtxMenu) return translate('sync.ctx_menu_title')
+  if (props.entry.type === Sync.SyncedEntryType.TabColors) {
+    return translate('sync.tab_colors_title')
+  }
   return translate('sync.unknown_title')
 }
 
@@ -96,6 +100,9 @@ async function onMainAction(entry: SyncedEntry) {
     }
     if (entry.type === Sync.SyncedEntryType.Styles) {
       await Styles.importSyncedStyles(entry)
+    }
+    if (entry.type === Sync.SyncedEntryType.TabColors) {
+      await TabColors.importSynced(entry)
     }
   } catch (err) {
     Logs.err('onMainAction', err, Utils.clone(entry))

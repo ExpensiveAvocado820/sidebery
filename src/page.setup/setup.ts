@@ -16,6 +16,7 @@ import * as Styles from 'src/services/styles.fg'
 import * as SidebarConfig from 'src/services/sidebar-config'
 import * as Popups from 'src/services/popups.fg'
 import * as Notifications from 'src/services/notifications.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
 import Root from './setup.vue'
 
 async function main(): Promise<void> {
@@ -38,6 +39,7 @@ async function main(): Promise<void> {
   Info.reactivate(reactive)
   Styles.reactivate(reactive)
   Notifications.reactivate(reactive)
+  TabColors.reactivate(reactive)
 
   IPC.registerActions({
     storageChanged: Store.storageChangeListener,
@@ -74,6 +76,7 @@ async function main(): Promise<void> {
   Settings.setupSettingsChangeListener()
 
   await Containers.load()
+  await TabColors.load()
   await SidebarConfig.loadSidebarConfig()
   SidebarConfig.setupSidebarConfigListeners()
   Styles.loadCustomCSS()

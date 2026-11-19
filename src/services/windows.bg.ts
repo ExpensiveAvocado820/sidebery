@@ -8,6 +8,7 @@ import * as IPC from 'src/services/ipc'
 import * as Omnibox from 'src/services/omnibox.bg'
 import * as Sidebar from 'src/services/sidebar.bg'
 import * as Utils from 'src/utils'
+import * as TabColors from 'src/services/tab-colors'
 import { translate } from 'src/dict'
 
 export const byId = new Map<ID, BgWindow>()
@@ -152,13 +153,15 @@ export async function createWithTabs(
       tab.parentId = idsMap[srcInfo.parentId]
     }
 
+    const customColor = TabColors.fromPortable(srcInfo.customColor)
+
     // Create cache data
     const cachedData: TabCache = { id: tab.id, url: srcInfo.url ?? 'about:newtab' }
     if (tab.parentId !== undefined && tab.parentId !== NOID) cachedData.parentId = tab.parentId
     if (srcInfo.panelId) cachedData.panelId = srcInfo.panelId
     if (tab.cookieStoreId !== defaultContainerId) cachedData.ctx = tab.cookieStoreId
     if (srcInfo.customTitle) cachedData.customTitle = srcInfo.customTitle
-    if (srcInfo.customColor) cachedData.customColor = srcInfo.customColor
+    if (customColor) cachedData.customColor = customColor
     if (srcInfo.pinned) cachedData.pin = true
     if (srcInfo.folded) cachedData.folded = true
     cache.push(cachedData)
@@ -171,7 +174,7 @@ export async function createWithTabs(
       folded: !!srcInfo.folded,
     }
     if (srcInfo.customTitle) sessionData.customTitle = srcInfo.customTitle
-    if (srcInfo.customColor) sessionData.customColor = srcInfo.customColor
+    if (customColor) sessionData.customColor = customColor
     browser.sessions.setTabValue(tab.id, 'data', sessionData).catch(err => {
       Logs.err('Windows.createWithTabs: Cannot set session data:', err)
     })

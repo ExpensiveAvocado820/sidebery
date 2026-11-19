@@ -8293,6 +8293,40 @@ url:github\\.com\\/.+\\/\\d+; title:(?<v>#\\d+); bg:#fff; fg:#000
     zh_TW: '取消選擇',
     ja: '選択をリセット',
   },
+
+  // ---
+  // -- Custom tab colors
+  // -
+  'settings.tabs.custom_colors': {
+    en: 'Custom tab colors',
+  },
+  'settings.tabs.custom_colors_add': {
+    en: 'Add color',
+  },
+  'settings.tabs.custom_colors_empty': {
+    en: 'No custom colors yet. Add one here or with "Set color > Add color..." in the tab context menu.',
+  },
+  'settings.tabs.custom_colors_up': {
+    en: 'Move up',
+  },
+  'settings.tabs.custom_colors_down': {
+    en: 'Move down',
+  },
+  'settings.tabs.custom_colors_rm': {
+    en: 'Delete',
+  },
+  'settings.tabs.custom_colors_rm_title': {
+    en: 'Delete color?',
+  },
+  'settings.tabs.custom_colors_rm_note': {
+    en: (n = 0): string => {
+      if (n === 1) return '1 open tab uses this color. Its color will be removed.'
+      return `${n} open tabs use this color. Their color will be removed.`
+    },
+  },
+  'settings.sync_save_tab_colors': {
+    en: 'Save custom tab colors to sync storage',
+  },
 }
 
 if (!window.translations) window.translations = setupPageTranslations

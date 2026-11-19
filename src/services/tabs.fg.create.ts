@@ -10,6 +10,7 @@ import * as IPC from 'src/services/ipc'
 import * as Popups from 'src/services/popups.fg'
 import * as Logs from 'src/services/logs'
 import * as Utils from 'src/utils'
+import * as TabColors from 'src/services/tab-colors'
 
 /**
  * Create tab after another tab
@@ -511,7 +512,8 @@ export async function open(
 
     if (item.customColor) {
       const newTab = Tabs.byId[tab.id]
-      if (newTab) newTab.reactive.customColor = newTab.customColor = item.customColor
+      const color = TabColors.fromPortable(item.customColor)
+      if (newTab && color) newTab.reactive.customColor = newTab.customColor = color
     }
 
     if (item.folded) {

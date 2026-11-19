@@ -78,6 +78,7 @@ import * as Permissions from 'src/services/permissions.fg'
 import * as Menu from 'src/services/menu.fg'
 import * as Styles from 'src/services/styles.fg'
 import * as Settings from 'src/services/settings.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
 import * as Logs from 'src/services/logs'
 import * as Favicons from 'src/services/favicons.fg'
 import * as Snapshots from 'src/services/snapshots.fg'
@@ -433,6 +434,8 @@ async function importSettings(backup: BackupData) {
   if (!backup.settings) return
 
   await Settings.importSettings(backup.settings)
+
+  if (backup.customTabColors) await TabColors.importPalette(backup.customTabColors)
 
   if (backup.settings.syncSaveSettings) {
     await Sync.save(Sync.SyncedEntryType.Settings, backup.settings)

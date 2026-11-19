@@ -2,6 +2,7 @@ import { Snapshot, SnapTab, NormalizedSnapshot, SnapExportInfo, Stored } from 's
 import { RemovingSnapshotResult, SnapStoreMode, PanelType } from 'src/enums'
 import { NOID, CONTAINER_ID, GROUP_URL, DEFAULT_CONTAINER_ID } from 'src/defaults'
 import * as Utils from 'src/utils'
+import * as TabColors from 'src/services/tab-colors'
 import * as Logs from 'src/services/logs'
 import * as Settings from 'src/services/settings'
 import * as Windows from 'src/services/windows.bg'
@@ -72,7 +73,10 @@ export async function createSnapshot(auto = false): Promise<Snapshot | undefined
       if (tab.folded) snapTab.folded = true
       if (tab.cookieStoreId !== CONTAINER_ID) snapTab.containerId = tab.cookieStoreId
       if (tab.customTitle) snapTab.customTitle = tab.customTitle
-      if (tab.customColor) snapTab.customColor = tab.customColor
+      if (tab.customColor) {
+        const color = TabColors.toPortable(tab.customColor)
+        if (color) snapTab.customColor = color
+      }
 
       snapTab.url = Utils.restoreUrl(snapTab.url) ?? snapTab.url
       snapTabsById[tab.id] = snapTab
@@ -452,7 +456,7 @@ async function openWindow(
         container: tab.containerId ?? DEFAULT_CONTAINER_ID,
       }
       if (tab.customTitle) tabInfo.customTitle = tab.customTitle
-      if (tab.customColor) tabInfo.customColor = tab.customColor
+      if (tab.customColor) tabInfo.customColor = TabColors.fromPortable(tab.customColor)
       tabsInfoByLvl[tab.lvl ?? 0] = tabInfo
 
       if (tab.pinned) tabInfo.pinned = true

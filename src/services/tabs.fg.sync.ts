@@ -8,6 +8,7 @@ import * as Favicons from 'src/services/favicons.fg'
 import * as Tabs from 'src/services/tabs.fg'
 import * as Containers from 'src/services/containers'
 import * as Sidebar from 'src/services/sidebar.fg'
+import * as TabColors from 'src/services/tab-colors'
 
 export async function sync(ids: ID[]) {
   Logs.info('TabsSync.sync():', ids)
@@ -40,7 +41,10 @@ export async function sync(ids: ID[]) {
       if (sContainer) syncedTabs.containers[sContainer.id] = sContainer
     }
     if (tab.customTitle) sTab.customTitle = tab.customTitle
-    if (tab.customColor) sTab.customColor = tab.customColor
+    if (tab.customColor) {
+      const color = TabColors.toPortable(tab.customColor)
+      if (color) sTab.customColor = color
+    }
 
     syncedTabs.tabs.push(sTab)
   }

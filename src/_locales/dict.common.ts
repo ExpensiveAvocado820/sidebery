@@ -2908,6 +2908,40 @@ export const commonTranslations: Translations = {
     fr: tabTitle => `↕ Déplacer un onglet actif dans le groupe: “${tabTitle}”`,
     ru: tabTitle => `↕ Переместить активную вкладку в группу: "${tabTitle}"`,
   },
+
+  // ---
+  // -- Custom tab colors
+  // -
+  'menu.tab.add_custom_color': {
+    en: 'Add color...',
+  },
+  'popup.color_picker.title_new': {
+    en: 'New color',
+  },
+  'popup.color_picker.title_edit': {
+    en: 'Edit color',
+  },
+  'popup.color_picker.brightness': {
+    en: 'Brightness',
+  },
+  'popup.color_picker.hex_label': {
+    en: 'Hex value',
+  },
+  'popup.color_picker.name_label': {
+    en: 'Name',
+  },
+  'popup.color_picker.name_placeholder': {
+    en: 'Optional',
+  },
+  'popup.color_picker.delete': {
+    en: 'Delete',
+  },
+  'sync.tab_colors_title': {
+    en: 'Tab colors',
+  },
+  'sync.success.import_tab_colors': {
+    en: 'Tab colors have been successfully imported',
+  },
 }
 
 if (!window.translations) window.translations = commonTranslations

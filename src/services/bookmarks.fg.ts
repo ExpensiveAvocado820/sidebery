@@ -18,6 +18,7 @@ import * as Containers from 'src/services/containers'
 import * as DnD from 'src/services/drag-and-drop.fg'
 import * as Search from 'src/services/search.fg'
 import * as Links from 'src/services/links'
+import * as TabColors from 'src/services/tab-colors'
 
 import * as Bookmarks from './bookmarks.fg'
 
@@ -172,7 +173,7 @@ class BkmNode {
     this.customColor = undefined
     this.reactive.customColor = undefined
     parsedTitle = parsedTitle.replace(D.COLOR_IN_BOOKMARK_RE, (match, colorId) => {
-      const color = D.BOOKMARK_TAB_COLOR[colorId as string]
+      const color = TabColors.parseBookmarkMarker(colorId as string)
       if (!color) return match
       this.reactive.customColor = this.customColor = color
       return ''
@@ -1215,7 +1216,8 @@ export function attachTabInfoToTitle(item: T.ItemInfo) {
     if (container) item.title += ` [${Containers.getCPID(container)}]`
   }
   if (item.customColor) {
-    item.title += ` [${D.TAB_BOOKMARK_COLOR[item.customColor]}]`
+    const marker = TabColors.getBookmarkMarker(item.customColor)
+    if (marker) item.title += ` [${marker}]`
   }
   if (item.customTitle) {
     item.title += ' [*]'
@@ -1241,7 +1243,7 @@ export function extractTabInfoFromTitle(item: T.ItemInfo, updateTitleOnly?: bool
   })
 
   item.title = item.title.replace(D.COLOR_IN_BOOKMARK_RE, (match, colorId) => {
-    const color = D.BOOKMARK_TAB_COLOR[colorId as string]
+    const color = TabColors.parseBookmarkMarker(colorId as string)
     if (!color) return match
     if (!updateTitleOnly) item.customColor = color
     return ''

@@ -10,7 +10,14 @@ type StorageValue<K extends keyof Stored> = Stored[K]
 type StorageEntries = (Iterator<Stored> &
   { [key in StorageKey]: [StorageKey, StorageValue<key>] }[StorageKey])[]
 
-const SIDEBAR_LISTENED_KEYS = ['settings', 'sidebarCSS', 'sidebar', 'contextMenu', 'containers']
+const SIDEBAR_LISTENED_KEYS = [
+  'settings',
+  'sidebarCSS',
+  'sidebar',
+  'contextMenu',
+  'containers',
+  'customTabColors',
+]
 const SETUP_LISTENED_KEYS = [
   'settings',
   'sidebarCSS',
@@ -20,6 +27,7 @@ const SETUP_LISTENED_KEYS = [
   'containers',
   'snapshots',
   'keybindings',
+  'customTabColors',
 ]
 const PANEL_CONFIG_LISTENED_KEYS = ['settings', 'sidebar', 'containers']
 

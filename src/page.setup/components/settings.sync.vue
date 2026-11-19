@@ -109,6 +109,12 @@ section(ref="el")
     dbg="syncSaveKeybindings"
     :default="DEFAULT_SETTINGS.syncSaveKeybindings"
     @update:value="onKbToggle()")
+  ToggleField(
+    label="settings.sync_save_tab_colors"
+    v-model:value="Settings.state.syncSaveTabColors"
+    dbg="syncSaveTabColors"
+    :default="DEFAULT_SETTINGS.syncSaveTabColors"
+    @update:value="onTabColorsToggle()")
 
   .ctrls
     .btn(@click="openSyncWin") {{translate('settings.sync_view_btn')}}
@@ -126,6 +132,7 @@ import * as Logs from 'src/services/logs'
 import * as Google from 'src/services/google'
 import * as SetupPage from 'src/services/setup-page.fg'
 import * as Keybindings from 'src/services/keybindings.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
 import TextField from '../../components/text-field.vue'
 import ToggleField from '../../components/toggle-field.vue'
 
@@ -170,6 +177,7 @@ async function onFFToggle() {
   if (Settings.state.syncUseFirefox) {
     if (Settings.state.syncSaveCtxMenu) Menu.saveCtxMenuToSync()
     if (Settings.state.syncSaveKeybindings) Keybindings.saveKeybindingsToSync()
+    if (Settings.state.syncSaveTabColors) TabColors.saveToSync()
     if (Settings.state.syncSaveStyles) {
       await Styles.loadCustomCSS()
       Styles.saveStylesToSync()
@@ -181,6 +189,7 @@ async function onFFToggle() {
     if (Settings.state.syncSaveSettings) Sync.Firefox.remove('settings')
     if (Settings.state.syncSaveCtxMenu) Sync.Firefox.remove('ctxMenu')
     if (Settings.state.syncSaveKeybindings) Sync.Firefox.remove('kb')
+    if (Settings.state.syncSaveTabColors) Sync.Firefox.remove('tabColors')
     if (Settings.state.syncSaveStyles) Sync.Firefox.remove('styles')
   }
 }
@@ -200,6 +209,7 @@ async function onGDToggle() {
 
       if (Settings.state.syncSaveCtxMenu) Menu.saveCtxMenuToSync()
       if (Settings.state.syncSaveKeybindings) Keybindings.saveKeybindingsToSync()
+      if (Settings.state.syncSaveTabColors) TabColors.saveToSync()
       if (Settings.state.syncSaveStyles) {
         await Styles.loadCustomCSS()
         Styles.saveStylesToSync()
@@ -252,6 +262,18 @@ function onKbToggle(): void {
     Keybindings.saveKeybindingsToSync()
   } else {
     Sync.removeByType(Sync.SyncedEntryType.Keybindings)
+  }
+
+  Settings.saveDebounced(150)
+}
+
+function onTabColorsToggle(): void {
+  Logs.info('onTabColorsToggle:', Settings.state.syncSaveTabColors)
+
+  if (Settings.state.syncSaveTabColors) {
+    TabColors.saveToSync()
+  } else {
+    Sync.removeByType(Sync.SyncedEntryType.TabColors)
   }
 
   Settings.saveDebounced(150)

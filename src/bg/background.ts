@@ -9,6 +9,7 @@ import * as Favicons from 'src/services/favicons.bg'
 import * as Containers from 'src/services/containers.bg'
 import * as Tabs from 'src/services/tabs.bg'
 import * as Store from 'src/services/storage.bg'
+import * as TabColors from 'src/services/tab-colors.bg'
 import * as Permissions from 'src/services/permissions.bg'
 import * as Snapshots from 'src/services/snapshots.bg'
 import * as Sidebar from 'src/services/sidebar.bg'
@@ -68,12 +69,20 @@ void (async function main() {
     createContainer: Containers.createAndSave,
     removeContainer: Containers.removeAndSave,
     importContainers: Containers.importContainers,
+
+    countTabsWithColor: TabColors.countTabsWithColor,
   })
 
   // Init first-need stuff
   IPC.setupGlobalMessageListener()
   IPC.setupConnectionListener()
-  await Promise.all([Windows.load(), Containers.load(), Settings.load(), Info.loadVersionInfo()])
+  await Promise.all([
+    Windows.load(),
+    Containers.load(),
+    Settings.load(),
+    Info.loadVersionInfo(),
+    TabColors.load(),
+  ])
 
   Info.saveVersion()
   Windows.setupWindowsListeners()
