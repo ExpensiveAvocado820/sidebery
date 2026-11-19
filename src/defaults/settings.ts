@@ -294,6 +294,7 @@ export const DEFAULT_SETTINGS: SettingsState = {
   syncSaveCtxMenu: false,
   syncSaveStyles: false,
   syncSaveKeybindings: false,
+  syncSaveTabColors: false,
 
   // Keybindings
   selectActiveTabFirst: true,

@@ -1,0 +1,85 @@
+@import './utils'
+
+#root .ColorPickerPopup
+  --toolbar-bg: var(--popup-bg)
+  --toolbar-fg: var(--popup-fg)
+
+.ColorPickerPopup .popup
+  max-width: 260px
+  padding: 0 8px 6px
+
+.ColorPickerPopup .wheel-box
+  position: relative
+  align-self: center
+  width: 176px
+  height: 176px
+  margin: 2px 0 10px
+  .wheel
+    display: block
+    border-radius: 50%
+    cursor: crosshair
+    touch-action: none
+  .marker
+    position: absolute
+    width: 14px
+    height: 14px
+    margin: -7px 0 0 -7px
+    border-radius: 50%
+    background-color: var(--marker-color)
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #0008, 0 1px 4px #0006
+    pointer-events: none
+
+.ColorPickerPopup .brightness
+  padding: 0 4px 8px
+  .brightness-input
+    width: 100%
+    height: 14px
+    margin: 0
+    border-radius: 7px
+    background: linear-gradient(to right, #000, var(--track-color))
+    appearance: none
+    outline: none
+    cursor: pointer
+    &::-moz-range-track
+      background: transparent
+    &::-moz-range-progress
+      background: transparent
+    &::-moz-range-thumb
+      width: 14px
+      height: 14px
+      border: 2px solid #fff
+      border-radius: 50%
+      background: transparent
+      box-shadow: 0 0 0 1px #0008, 0 1px 3px #0006
+    &::-webkit-slider-thumb
+      appearance: none
+      width: 14px
+      height: 14px
+      border: 2px solid #fff
+      border-radius: 50%
+      background: transparent
+      box-shadow: 0 0 0 1px #0008, 0 1px 3px #0006
+
+.ColorPickerPopup .field
+  padding: 0 4px 8px
+  .field-label
+    font-size: rem(13)
+    color: var(--popup-fg)
+    opacity: .7
+    padding: 0 0 3px 2px
+  .field-row
+    display: flex
+    align-items: center
+    gap: 6px
+  .preview
+    flex-shrink: 0
+    width: 26px
+    height: 26px
+    border-radius: var(--general-border-radius)
+    background-color: var(--preview-color)
+    box-shadow: inset 0 0 0 1px #0003
+  .TextInput
+    flex-grow: 1
+    min-width: 0
+  .hex-input input
+    font-family: monospace

@@ -13,6 +13,7 @@ export const enum FileType {
   Styles = 4,
   Keybindings = 5,
   Tabs = 6,
+  TabColors = 7,
 }
 
 export interface SyncedContainer {
@@ -61,4 +62,5 @@ export const typeNames: Record<(typeof FileType)[keyof typeof FileType], string>
   [FileType.Styles]: 'styles',
   [FileType.Keybindings]: 'keybindings',
   [FileType.Tabs]: 'tabs',
+  [FileType.TabColors]: 'tab-colors',
 }

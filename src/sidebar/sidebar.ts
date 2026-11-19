@@ -26,6 +26,7 @@ import * as Snapshots from 'src/services/snapshots.fg'
 import * as Sync from 'src/services/sync.fg'
 import * as Keybindings from 'src/services/keybindings.fg'
 import * as WebReq from 'src/services/web-req.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
 import SidebarRoot from './sidebar.vue'
 
 async function main(): Promise<void> {
@@ -108,6 +109,7 @@ async function main(): Promise<void> {
   Search.reactivate(reactive)
   Styles.reactivate(reactive)
   Sync.reactivate(reactive)
+  TabColors.reactivate(reactive)
 
   Styles.updateGlobalFontSize()
   Styles.udpateGlobalFontFamily()
@@ -124,6 +126,7 @@ async function main(): Promise<void> {
   Styles.load()
 
   await Containers.load()
+  await TabColors.load()
   await Sidebar.loadPanels()
   Sidebar.setupListeners()
 

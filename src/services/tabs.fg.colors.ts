@@ -3,6 +3,8 @@ import * as Utils from 'src/utils'
 import * as Containers from 'src/services/containers.fg'
 import * as Settings from 'src/services/settings'
 import * as Tabs from 'src/services/tabs.fg'
+import * as TabColors from 'src/services/tab-colors.fg'
+import * as Popups from 'src/services/popups.fg'
 
 export function colorizeTabs(): void {
   for (const tab of Tabs.list) {
@@ -105,4 +107,18 @@ export function setCustomColor(tabIds: ID[], color: string): void {
   }
 
   Tabs.cacheTabsData()
+}
+
+/**
+ * Open color picker, save the new color to the palette and apply it to the tabs.
+ */
+export async function addCustomColorToTabs(tabIds: ID[]): Promise<void> {
+  const firstTab = Tabs.byId[tabIds[0]]
+  const initialHex = TabColors.getColorCode(firstTab?.customColor) ?? TabColors.randomHex()
+
+  const result = await Popups.openColorPicker({ hex: initialHex })
+  if (!result) return
+
+  const color = await TabColors.add(result.hex, result.name)
+  setCustomColor(tabIds, TabColors.makeCustomRef(color.id))
 }

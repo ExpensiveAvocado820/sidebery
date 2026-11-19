@@ -552,6 +552,7 @@ section(ref="el")
       dbg="inheritCustomColor"
       :default="DEFAULT_SETTINGS.inheritCustomColor"
       @update:value="Settings.saveDebounced(150)")
+    TabColorsField
 
   .wrapper(ref="tabsPreviewEl")
     .sub-title: .text {{translate('settings.nav_settings_tabs_preview')}}
@@ -724,6 +725,7 @@ import ToggleField from '../../components/toggle-field.vue'
 import SelectField from '../../components/select-field.vue'
 import NumField from '../../components/num-field.vue'
 import TextField from '../../components/text-field.vue'
+import TabColorsField from './settings.tab-colors.vue'
 
 const el = ref<HTMLElement | null>(null)
 const newTabPosEl = ref<HTMLElement | null>(null)

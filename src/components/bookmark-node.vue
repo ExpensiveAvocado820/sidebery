@@ -15,7 +15,7 @@
     @mouseup.stop="onMouseUp"
     @contextmenu.stop="onCtxMenu")
     .dnd-layer(draggable="true" data-dnd-type="bookmark" :data-dnd-id="node.id" @dragstart="onDragStart")
-    .color-layer(v-if="node.reactive.customColor" :style="{ '--bkm-color': RGB_COLORS[node.customColor as string] }")
+    .color-layer(v-if="node.reactive.customColor" :style="{ '--bkm-color': TabColors.getColorCode(node.reactive.customColor) }")
     .fav(v-if="node.type === BkmType.Bookmark")
       svg(v-if="!favicon")
         use(href="#icon_ff")
@@ -51,7 +51,8 @@ import * as Tabs from 'src/services/tabs.fg'
 import * as Mouse from 'src/services/mouse.fg'
 import * as DnD from 'src/services/drag-and-drop.fg'
 import * as Search from 'src/services/search.fg'
-import { NOID, RGB_COLORS } from 'src/defaults'
+import { NOID } from 'src/defaults'
+import * as TabColors from 'src/services/tab-colors'
 import * as Favicons from 'src/services/favicons.fg'
 import * as Utils from 'src/utils'
 import * as Logs from 'src/services/logs'

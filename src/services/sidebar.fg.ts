@@ -2884,6 +2884,9 @@ export function resetOrCancelInteraction() {
   // Site config popup
   if (Popups.reactive.siteConfigPopup) Popups.closeSiteConfigPopup()
 
+  // Color picker popup
+  if (Popups.reactive.colorPickerPopup) Popups.closeColorPicker()
+
   // Tab preview
   if (TabPreviews.state.status === TabPreviews.Status.Open) TabPreviews.closePreview()
 }

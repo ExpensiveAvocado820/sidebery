@@ -1,13 +1,13 @@
-import { MenuConfs, SettingsState } from 'src/types'
+import { CustomTabColor, MenuConfs, SettingsState } from 'src/types'
 import * as Sync from 'src/services/sync'
 
-export type KeyType = 'settings' | 'ctxMenu' | 'kb' | 'styles'
+export type KeyType = 'settings' | 'ctxMenu' | 'kb' | 'styles' | 'tabColors'
 
 /**
  * Key value pairs stored to browser.storage.sync.
  *
  * key is `${profileId}::${dataType}`
- * where dataType is 'settings' | 'ctxMenu' | 'styles' | 'kb'
+ * where dataType is 'settings' | 'ctxMenu' | 'styles' | 'kb' | 'tabColors'
  */
 export interface Synced {
   [key: string]: SyncedValue
@@ -33,6 +33,7 @@ export interface SyncableData {
   sidebarCSS?: string
   groupCSS?: string
   keybindings?: { [name: string]: string }
+  customTabColors?: CustomTabColor[]
 }
 
 export function syncEntryTypeToKeyType(entryType: Sync.SyncedEntryType): KeyType | void {
@@ -45,5 +46,7 @@ export function syncEntryTypeToKeyType(entryType: Sync.SyncedEntryType): KeyType
       return 'styles'
     case Sync.SyncedEntryType.Keybindings:
       return 'kb'
+    case Sync.SyncedEntryType.TabColors:
+      return 'tabColors'
   }
 }

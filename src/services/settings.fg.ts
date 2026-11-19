@@ -64,6 +64,7 @@ export async function importSyncedSettings(entry: Sync.SyncedEntry) {
   settings.syncSaveCtxMenu = Settings.state.syncSaveCtxMenu
   settings.syncSaveStyles = Settings.state.syncSaveStyles
   settings.syncSaveKeybindings = Settings.state.syncSaveKeybindings
+  settings.syncSaveTabColors = Settings.state.syncSaveTabColors
 
   await importSettings(settings)
 

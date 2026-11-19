@@ -14,6 +14,7 @@ export interface PopupsReactiveState {
   tabMoveRulesPopup: TabMoveRulesPopup | null
   tabReopenRulesPopup: TabReopenRulesPopup | null
   processingTabsPopup: ProcessingTabsPopup | null
+  colorPickerPopup: ColorPickerPopup | null
   confirm: T.ConfirmDialog | null
   dialog: T.Dialog | null
 }
@@ -58,6 +59,20 @@ export interface SiteConfigPopup {
 
 export interface ProcessingTabsPopup {}
 
+export interface ColorPickerResult {
+  hex: string
+  name: string
+  remove?: boolean
+}
+
+export interface ColorPickerPopup {
+  hex: string
+  name: string
+  /** Editing an existing palette entry: show the Delete button */
+  editing: boolean
+  done: (result: ColorPickerResult | null) => void
+}
+
 export let reactive: PopupsReactiveState = {
   panelConfigPopup: null,
   containerConfigPopup: null,
@@ -67,6 +82,7 @@ export let reactive: PopupsReactiveState = {
   tabMoveRulesPopup: null,
   tabReopenRulesPopup: null,
   processingTabsPopup: null,
+  colorPickerPopup: null,
   confirm: null,
   dialog: null,
 }
@@ -227,4 +243,29 @@ export function openProcessingTabsPopup() {
 export function closeProcessingTabsPopup() {
   if (!reactive.processingTabsPopup) return
   reactive.processingTabsPopup = null
+}
+
+export function openColorPicker(conf: {
+  hex: string
+  name?: string
+  editing?: boolean
+}): Promise<ColorPickerResult | null> {
+  // Cancel previous one
+  if (reactive.colorPickerPopup) reactive.colorPickerPopup.done(null)
+
+  return new Promise(ok => {
+    reactive.colorPickerPopup = {
+      hex: conf.hex,
+      name: conf.name ?? '',
+      editing: !!conf.editing,
+      done: result => {
+        reactive.colorPickerPopup = null
+        ok(result)
+      },
+    }
+  })
+}
+
+export function closeColorPicker(): void {
+  if (reactive.colorPickerPopup) reactive.colorPickerPopup.done(null)
 }

@@ -19,6 +19,7 @@
                   :data-inactive="opt.inactive"
                   :data-color="opt.color"
                   :data-container-color="opt.containerColor"
+                  :style="optStyle(opt)"
                   :title="opt.tooltip ?? opt.label"
                   @mousedown="onMouseDown($event, opt)"
                   @mouseup="onMouseUp($event, opt)")
@@ -27,6 +28,7 @@
                     img.icon(v-if="opt.img" :src="opt.img")
                     svg.icon(v-else-if="opt.icon"): use(:href="'#' + opt.icon")
                   .label {{opt.label}}
+                  svg.check-icon(v-if="opt.checked"): use(href="#icon_ok")
         div(v-for="group in state.tickBlocks" :class="`${group.type}-group`")
           .icon-opt(
             v-if="group.type === 'inline'"
@@ -36,6 +38,7 @@
             :data-separator="opt.type === 'separator'"
             :data-color="opt.color"
             :data-container-color="opt.containerColor"
+            :style="optStyle(opt)"
             :data-inactive="opt.inactive"
             :title="opt.tooltip ?? opt.label"
             @mousedown="onMouseDown($event, opt)"
@@ -51,6 +54,7 @@
             :data-inactive="opt.inactive"
             :data-color="opt.color"
             :data-container-color="opt.containerColor"
+            :style="optStyle(opt)"
             :title="opt.tooltip ?? opt.label"
             @mousedown="onMouseDown($event, opt)"
             @mouseup="onMouseUp($event, opt)")
@@ -59,6 +63,7 @@
               img.icon(v-if="opt.img" :src="opt.img")
               svg.icon(v-else-if="opt.icon"): use(:href="'#' + opt.icon")
             .label {{opt.label}}
+            svg.check-icon(v-if="opt.checked"): use(href="#icon_ok")
             .icon-box(v-if="opt.sub")
               svg.icon.-rotate-90: use(href="#icon_expand")
             .flag-btn(
@@ -87,6 +92,7 @@
                   :data-inactive="opt.inactive"
                   :data-color="opt.color"
                   :data-container-color="opt.containerColor"
+                  :style="optStyle(opt)"
                   :title="opt.tooltip ?? opt.label"
                   @mousedown="onMouseDown($event, opt)"
                   @mouseup="onMouseUp($event, opt)")
@@ -95,6 +101,7 @@
                     img.icon(v-if="opt.img" :src="opt.img")
                     svg.icon(v-else-if="opt.icon"): use(:href="'#' + opt.icon")
                   .label {{opt.label}}
+                  svg.check-icon(v-if="opt.checked"): use(href="#icon_ok")
         div(v-for="group in state.tackBlocks" :class="`${group.type}-group`")
           .icon-opt(
             v-if="group.type === 'inline'"
@@ -104,6 +111,7 @@
             :data-separator="opt.type === 'separator'"
             :data-color="opt.color"
             :data-container-color="opt.containerColor"
+            :style="optStyle(opt)"
             :data-inactive="opt.inactive"
             :title="opt.tooltip ?? opt.label"
             @mousedown="onMouseDown($event, opt)"
@@ -120,6 +128,7 @@
             :data-inactive="opt.inactive"
             :data-color="opt.color"
             :data-container-color="opt.containerColor"
+            :style="optStyle(opt)"
             :title="opt.tooltip ?? opt.label"
             @mousedown="onMouseDown($event, opt)"
             @mouseup="onMouseUp($event, opt)")
@@ -128,6 +137,7 @@
               img.icon(v-if="opt.img" :src="opt.img")
               svg.icon(v-else-if="opt.icon"): use(:href="'#' + opt.icon")
             .label {{opt.label}}
+            svg.check-icon(v-if="opt.checked"): use(href="#icon_ok")
             .icon-box(v-if="opt.sub")
               svg.icon.-rotate-90: use(href="#icon_expand")
             .flag-btn(
@@ -346,6 +356,13 @@ function btnWidth(opts: T.MenuOption[]): string {
   if (len === 6) return '3'
   if (len === 8) return '4'
   return 'wrap'
+}
+
+/**
+ * Custom tab colors have no named color, only the color code
+ */
+function optStyle(opt: T.MenuOption): Record<string, string> | undefined {
+  if (!opt.color && !opt.containerColor && opt.colorCode) return { '--color': opt.colorCode }
 }
 
 function isSelected(opt: T.MenuOption): boolean {

@@ -26,6 +26,8 @@ export interface MenuOption {
   color?: string
   colorCode?: string
   containerColor?: string
+  /** Mark option as the current value */
+  checked?: boolean
   inactive?: boolean
   sub?: MenuOption[]
   flag?: MenuOptionFlag

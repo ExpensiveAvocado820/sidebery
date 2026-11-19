@@ -39,6 +39,8 @@ export function getFileName(fileType: FileType): string {
       return `${typeNames[FileType.Keybindings]}_${profileId}.json`
     case FileType.Tabs:
       return `${typeNames[FileType.Tabs]}_${profileId}.json`
+    case FileType.TabColors:
+      return `${typeNames[FileType.TabColors]}_${profileId}.json`
   }
 }
 
@@ -54,6 +56,8 @@ export function syncEntryTypeToFileType(entryType: Sync.SyncedEntryType): FileTy
       return FileType.Keybindings
     case Sync.SyncedEntryType.Tabs:
       return FileType.Tabs
+    case Sync.SyncedEntryType.TabColors:
+      return FileType.TabColors
   }
 }
 
@@ -76,6 +80,8 @@ async function loadCachedFileIds(): Promise<Map<FileType, string>> {
   if (stylesId) cachedIds.set(FileType.Styles, stylesId)
   const kbId = storedIds[typeNames[FileType.Keybindings]]
   if (kbId) cachedIds.set(FileType.Keybindings, kbId)
+  const tabColorsId = storedIds[typeNames[FileType.TabColors]]
+  if (tabColorsId) cachedIds.set(FileType.TabColors, tabColorsId)
 
   return cachedIds
 }
@@ -124,6 +130,7 @@ async function updateCachedFileIds() {
   let ctxMenuId: string | undefined
   let stylesId: string | undefined
   let keybindingsId: string | undefined
+  let tabColorsId: string | undefined
 
   for (const file of files) {
     const props = file.appProperties
@@ -136,6 +143,7 @@ async function updateCachedFileIds() {
     if (fileType === typeNames[FileType.CtxMenu]) ctxMenuId = file.id
     if (fileType === typeNames[FileType.Styles]) stylesId = file.id
     if (fileType === typeNames[FileType.Keybindings]) keybindingsId = file.id
+    if (fileType === typeNames[FileType.TabColors]) tabColorsId = file.id
   }
 
   if (profileInfoId) cachedFileIds.set(FileType.ProfileInfo, profileInfoId)
@@ -143,6 +151,7 @@ async function updateCachedFileIds() {
   if (ctxMenuId) cachedFileIds.set(FileType.CtxMenu, ctxMenuId)
   if (stylesId) cachedFileIds.set(FileType.Styles, stylesId)
   if (keybindingsId) cachedFileIds.set(FileType.Keybindings, keybindingsId)
+  if (tabColorsId) cachedFileIds.set(FileType.TabColors, tabColorsId)
 
   saveCachedFileIds()
 }

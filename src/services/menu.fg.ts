@@ -339,6 +339,10 @@ function createNativeOption(
 
   if (parentId) optProps.parentId = parentId
   if (option.inactive) optProps.enabled = false
+  if (option.checked) {
+    optProps.type = 'checkbox'
+    optProps.checked = true
+  }
   if (icon) optProps.icons = { '16': icon }
 
   optProps.onclick = () => {

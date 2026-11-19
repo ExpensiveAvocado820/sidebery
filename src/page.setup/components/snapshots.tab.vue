@@ -15,7 +15,7 @@
   @mousedown="onTabMouseDown($event, tab)"
   @mouseup.stop.prevent="onTabMouseUp($event, tab)")
   .container-mark(v-if="tab.containerIcon")
-  .color-layer(v-if="tab.customColor" :style="{ '--tab-color': RGB_COLORS[tab.customColor] }")
+  .color-layer(v-if="tab.customColor" :style="{ '--tab-color': TabColors.getColorCode(tab.customColor) }")
   .drop-down-btn(
     v-if="tab.isParent"
     @click="Snapshots.foldBranchInViewer(index, panel.tabs)"
@@ -44,7 +44,8 @@
 <script lang="ts" setup>
 import type { ItemInfo, SnapPanelState, SnapshotState, SnapTabState } from 'src/types'
 import type { SnapshotsViewerState } from './snapshots.vue'
-import { CONTAINER_ID, NOID, RGB_COLORS } from 'src/defaults'
+import { CONTAINER_ID, NOID } from 'src/defaults'
+import * as TabColors from 'src/services/tab-colors'
 import * as Snapshots from 'src/services/snapshots.fg'
 import * as Favicons from 'src/services/favicons.fg'
 import * as Utils from 'src/utils'

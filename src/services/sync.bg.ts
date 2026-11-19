@@ -63,6 +63,13 @@ async function _save<T extends Self.SyncedEntryType>(type: T, data: Self.SyncedD
       if (Settings.state.syncUseGoogleDrive) {
         file = await Self.Google.save(Self.Google.FileType.Keybindings, data, { entryId })
       }
+    } else if (type === Self.SyncedEntryType.TabColors) {
+      if (Settings.state.syncUseFirefox) {
+        ffKey = await Self.Firefox.save('tabColors', { customTabColors: data }, entryId)
+      }
+      if (Settings.state.syncUseGoogleDrive) {
+        file = await Self.Google.save(Self.Google.FileType.TabColors, data, { entryId })
+      }
     }
     gdFileId = file?.id
   } catch (err) {
@@ -162,6 +169,9 @@ async function _remove(entry: Partial<Self.SyncedEntry>) {
       if (entry.type === Self.SyncedEntryType.Keybindings) {
         fileType = Self.Google.FileType.Keybindings
       }
+      if (entry.type === Self.SyncedEntryType.TabColors) {
+        fileType = Self.Google.FileType.TabColors
+      }
       if (fileType) removingInGoogleDrive = Self.Google.remove(fileType)
     }
   }
@@ -189,6 +199,7 @@ export async function removeByType(type: Self.SyncedEntryType) {
       if (type === Self.SyncedEntryType.CtxMenu) ffType = 'ctxMenu'
       if (type === Self.SyncedEntryType.Styles) ffType = 'styles'
       if (type === Self.SyncedEntryType.Keybindings) ffType = 'kb'
+      if (type === Self.SyncedEntryType.TabColors) ffType = 'tabColors'
       if (ffType) await Self.Firefox.remove(ffType)
     }
     if (Settings.state.syncUseGoogleDrive) {
@@ -197,6 +208,7 @@ export async function removeByType(type: Self.SyncedEntryType) {
       if (type === Self.SyncedEntryType.CtxMenu) gdType = Self.Google.FileType.CtxMenu
       if (type === Self.SyncedEntryType.Styles) gdType = Self.Google.FileType.Styles
       if (type === Self.SyncedEntryType.Keybindings) gdType = Self.Google.FileType.Keybindings
+      if (type === Self.SyncedEntryType.TabColors) gdType = Self.Google.FileType.TabColors
       if (gdType) await Self.Google.remove(gdType)
     }
   })
@@ -225,6 +237,7 @@ async function _getData<T>(entry: Self.SyncedEntry): Promise<T | null | void> {
     if (entry.type === Self.SyncedEntryType.Settings) data = val.settings as T
     if (entry.type === Self.SyncedEntryType.CtxMenu) data = val.contextMenu as T
     if (entry.type === Self.SyncedEntryType.Keybindings) data = val.keybindings as T
+    if (entry.type === Self.SyncedEntryType.TabColors) data = val.customTabColors as T
     if (entry.type === Self.SyncedEntryType.Styles) {
       data = { sidebarCSS: val.sidebarCSS, groupCSS: val.groupCSS } as T
     }

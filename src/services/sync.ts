@@ -1,4 +1,4 @@
-import { MenuConfs, SettingsState, CustomStyles } from 'src/types'
+import { MenuConfs, SettingsState, CustomStyles, CustomTabColor } from 'src/types'
 import * as Utils from 'src/utils'
 import * as Logs from 'src/services/logs'
 
@@ -8,6 +8,7 @@ export const enum SyncedEntryType {
   Styles = 3,
   Keybindings = 4,
   Tabs = 5,
+  TabColors = 6,
 }
 
 export type SyncedDataType<T> = T extends SyncedEntryType.Settings
@@ -18,7 +19,9 @@ export type SyncedDataType<T> = T extends SyncedEntryType.Settings
       ? Record<string, string>
       : T extends SyncedEntryType.Styles
         ? CustomStyles
-        : any
+        : T extends SyncedEntryType.TabColors
+          ? CustomTabColor[]
+          : any
 
 export interface EntryTab {
   id: ID
@@ -85,6 +88,9 @@ export function getSyncedType(syncedTypeString: string): SyncedEntryType | null 
       return SyncedEntryType.Keybindings
     case 'tabs':
       return SyncedEntryType.Tabs
+    case 'tabColors':
+    case 'tab-colors':
+      return SyncedEntryType.TabColors
     default:
       return null
   }

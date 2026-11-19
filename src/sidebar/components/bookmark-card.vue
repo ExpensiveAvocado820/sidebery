@@ -10,7 +10,7 @@
   @contextmenu.stop="onCtxMenu")
   .dnd-layer(draggable="true" data-dnd-type="panel" data-dnd-id="bookmarks" @dragstart="onDragStart")
   .body
-    .color-layer(v-if="node.customColor" :style="{ '--bkm-color': RGB_COLORS[node.customColor] }")
+    .color-layer(v-if="node.customColor" :style="{ '--bkm-color': TabColors.getColorCode(node.customColor) }")
     .line
       .fav
         svg(v-if="!favicon")
@@ -27,7 +27,7 @@
 import { computed } from 'vue'
 import type { DragInfo } from 'src/types'
 import { MenuType, DragType, DropType, BkmType } from 'src/enums'
-import { RGB_COLORS } from 'src/defaults'
+import * as TabColors from 'src/services/tab-colors'
 import * as Settings from 'src/services/settings'
 import * as Windows from 'src/services/windows.fg'
 import * as Selection from 'src/services/selection.fg'

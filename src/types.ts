@@ -4,6 +4,7 @@ import type { SidebarConfig, TabsPanel } from './types/sidebar'
 import type { MenuConfs } from './types/menu'
 import type { Snapshot } from './types/snapshots'
 import type { ItemInfo } from './types/tabs'
+import type { CustomTabColor } from './types/tab-colors'
 import type { WindowChoosingDetails } from './types/windows'
 import type { ItemBounds } from './types/sidebar'
 import type * as E from 'src/enums'
@@ -20,6 +21,7 @@ export type * from './types/windows'
 export type * from './types/styles'
 export type * from './types/bookmarks'
 export type * from './types/history'
+export type * from './types/tab-colors'
 
 export interface ConfirmDialog {
   type: E.ConfirmationType
@@ -90,6 +92,7 @@ export interface BackupData {
   favHashes?: number[]
   favDomains?: Record<string, FavDomain>
   keybindings?: Record<string, string>
+  customTabColors?: CustomTabColor[]
 }
 
 export interface Command extends browser.commands.Command {

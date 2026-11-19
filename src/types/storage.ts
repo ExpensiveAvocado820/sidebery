@@ -26,6 +26,8 @@ export interface Stored {
 
   contextMenu?: T.MenuConfs
 
+  customTabColors?: T.CustomTabColor[]
+
   sidebarCSS?: string
   groupCSS?: string
 

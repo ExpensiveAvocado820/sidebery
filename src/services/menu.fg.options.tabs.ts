@@ -14,6 +14,14 @@ import * as Logs from 'src/services/logs'
 import * as Popups from 'src/services/popups.fg'
 import * as TabsSorting from 'src/services/tabs.fg.sorting'
 import * as TabsSync from 'src/services/tabs.fg.sync'
+import * as TabColors from 'src/services/tab-colors'
+
+const MAX_COLOR_LABEL_LEN = 40
+
+function shortenLabel(label: string): string {
+  if (label.length <= MAX_COLOR_LABEL_LEN) return label
+  return label.slice(0, MAX_COLOR_LABEL_LEN - 1).trimEnd() + '…'
+}
 
 export const tabsMenuOptions: Record<string, () => MenuOption | MenuOption[] | undefined> = {
   undoRmTab: () => ({
@@ -535,21 +543,56 @@ export const tabsMenuOptions: Record<string, () => MenuOption | MenuOption[] | u
   colorizeTab: () => {
     const opts: MenuOption[] = []
     const selected = Selection.ids()
-    let usedColor
-    if (selected.length === 1) usedColor = Tabs.byId[selected[0]]?.customColor ?? 'toolbar'
+
+    // Mark current color if all selected tabs share it
+    let current: string | undefined
+    for (let i = 0; i < selected.length; i++) {
+      const color = Tabs.byId[selected[i]]?.customColor ?? 'toolbar'
+      if (i === 0) current = color
+      else if (current !== color) {
+        current = undefined
+        break
+      }
+    }
+
+    // Built-in colors
     for (const color of D.COLOR_OPTS) {
-      if (usedColor && usedColor === color.color) continue
-      const title = translate('colors.' + color.color)
       opts.push({
-        label: title,
+        label: translate('colors.' + color.color),
         color: color.color,
         colorCode: D.RGB_COLORS[color.color],
         icon: color.value === 'toolbar' ? 'icon_none' : 'circle_filled',
+        checked: current === color.value,
         onClick: () => Tabs.setCustomColor(selected, color.value),
       })
     }
 
-    if (opts.length) return opts
+    // Custom colors
+    if (TabColors.reactive.list.length) {
+      opts.push({ type: 'separator' })
+      for (const color of TabColors.reactive.list) {
+        const value = TabColors.makeCustomRef(color.id)
+        const name = TabColors.getDisplayName(color)
+        opts.push({
+          label: shortenLabel(name),
+          tooltip: color.name ? `${color.name} (${color.hex})` : color.hex,
+          colorCode: color.hex,
+          icon: 'circle_filled',
+          checked: current === value,
+          onClick: () => Tabs.setCustomColor(selected, value),
+        })
+      }
+    }
+
+    // Add new custom color
+    opts.push({ type: 'separator' })
+    opts.push({
+      label: translate('menu.tab.add_custom_color'),
+      icon: 'icon_plus',
+      onClick: () => Tabs.addCustomColorToTabs(selected),
+    })
+
+    return opts
   },
 
   editTabTitle: () => {
